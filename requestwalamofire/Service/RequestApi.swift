@@ -8,15 +8,34 @@
 import Foundation
 import Alamofire
 
-func getRequest(completion: @escaping (Result<[PostStruct], Error>) -> Void) {
-    let url = "https://jsonplaceholder.typicode.com/posts"
+class NetworkManager {
     
-    AF.request(url).responseDecodable(of: [PostStruct].self) { response in
-        switch response.result {
-        case .success(let posts):
-            completion(.success(posts))
-        case .failure(let error):
-            completion(.failure(error))
+    static let shared = NetworkManager()
+
+    func request<T: Decodable>(urlString: String, completion: @escaping (Result<T, Error>) -> Void) {
+        guard let url = URL(string: urlString) else {
+            completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
+            return
         }
+
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            guard let data = data else {
+                completion(.failure(NSError(domain: "No Data", code: 0, userInfo: nil)))
+                return
+            }
+
+            do {
+                let result = try JSONDecoder().decode(T.self, from: data)
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+        task.resume()
     }
 }
