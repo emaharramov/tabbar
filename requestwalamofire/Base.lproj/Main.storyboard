@@ -62,11 +62,54 @@
                     </tabBar>
                     <connections>
                         <segue destination="5D5-sL-81e" kind="relationship" relationship="viewControllers" id="nPt-Ma-Qpg"/>
+                        <segue destination="C05-7Z-v3O" kind="relationship" relationship="viewControllers" id="eVW-A3-peB"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7hi-4j-oVw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-375" y="29"/>
+        </scene>
+        <!--Albums-->
+        <scene sceneID="9Ie-Rd-zpN">
+            <objects>
+                <viewController storyboardIdentifier="AlbumsController" id="SzK-os-OI7" customClass="AlbumsController" customModule="requestwalamofire" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lvm-rs-HDe">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Ex0-pH-TX6">
+                                <rect key="frame" x="0.0" y="103" width="393" height="666"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AlbumCell" id="ABF-tU-TJJ">
+                                        <rect key="frame" x="0.0" y="50" width="393" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ABF-tU-TJJ" id="32J-Pe-JLt">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="CTB-ei-Jrk"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Ex0-pH-TX6" firstAttribute="leading" secondItem="CTB-ei-Jrk" secondAttribute="leading" id="B8f-1c-WIv"/>
+                            <constraint firstItem="CTB-ei-Jrk" firstAttribute="bottom" secondItem="Ex0-pH-TX6" secondAttribute="bottom" id="EIt-G6-nGq"/>
+                            <constraint firstItem="CTB-ei-Jrk" firstAttribute="trailing" secondItem="Ex0-pH-TX6" secondAttribute="trailing" id="Zw1-Jt-KH1"/>
+                            <constraint firstItem="Ex0-pH-TX6" firstAttribute="top" secondItem="CTB-ei-Jrk" secondAttribute="top" id="bNr-qo-Tgx"/>
+                            <constraint firstItem="Ex0-pH-TX6" firstAttribute="centerX" secondItem="lvm-rs-HDe" secondAttribute="centerX" id="wLC-n8-3xK"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Albums" id="yFn-Ro-6c6"/>
+                    <connections>
+                        <outlet property="tableView" destination="Ex0-pH-TX6" id="22E-5M-d4A"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4yq-JE-DuR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2394.6564885496182" y="258.45070422535213"/>
         </scene>
         <!--Posts-->
         <scene sceneID="tne-QT-ifu">
@@ -136,8 +179,28 @@
             </objects>
             <point key="canvasLocation" x="542.74809160305347" y="-425.35211267605638"/>
         </scene>
+        <!--Albums-->
+        <scene sceneID="WMP-97-Iqc">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="C05-7Z-v3O" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Albums" image="photo" catalog="system" id="aaV-te-rvr"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="B9Z-WO-Mad">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="SzK-os-OI7" kind="relationship" relationship="rootViewController" id="c3y-UB-kbn"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="13I-Rs-oqw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1467.9389312977098" y="258.45070422535213"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="photo" catalog="system" width="128" height="93"/>
         <image name="photo.artframe" catalog="system" width="128" height="93"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -9,34 +9,36 @@ import UIKit
 
 class AlbumsController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    
-    
     @IBOutlet weak var tableView: UITableView!
     var viewModel = AlbumsViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.dataSource = self
+        // TableView delegate ve dataSource ayarları
         tableView.delegate = self
+        tableView.dataSource = self
         
-        // TableView için hücre kaydı
-        tableView.register(UINib(nibName: "AlbumsTableViewCell", bundle: nil), forCellReuseIdentifier: "AlbumsTableViewCell")
+        // ViewModel'deki albüm verilerini yükle
+        viewModel.loadAlbums()
         
+        // ViewModel binding'lerini ayarla
         setupViewModelBindings()
-        
     }
     
     private func setupViewModelBindings() {
-        viewModel.didUpdatePosts = { [weak self] in
+        // Albüm verileri güncellendiğinde tabloyu yeniden yükle
+        viewModel.didUpdateAlbums = { [weak self] in
             DispatchQueue.main.async {
-                self?.tableView.reloadData()
+                print("Albums updated successfully.")
+                self?.tableView.reloadData() // Tabloyu yeniden yüklüyoruz
             }
         }
         
-        // Hata oluştuğunda kullanıcıya hata gösterme
+        // Hata durumunda uyarı göster
         viewModel.error = { [weak self] error in
             DispatchQueue.main.async {
+                print("Error: \(error)")
                 self?.showAlert(with: error)
             }
         }
@@ -45,27 +47,21 @@ class AlbumsController: UIViewController, UITableViewDataSource, UITableViewDele
     // MARK: - TableView Data Source
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.albums.count
+        return viewModel.album.count // Albüm sayısı
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "AlbumsTableViewCell", for: indexPath) as? AlbumsTableViewCell else {
-            fatalError("Unable to dequeue AlbumsTableViewCell")
-        }
-        let album = viewModel.albums[indexPath.row]
-        cell.configure(with: album)
+        // Hücreyi deque edelim
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AlbumCell", for: indexPath)
+        let album = viewModel.album[indexPath.row]
+        
+        // Albüm başlığını hücrede gösterelim
+        cell.textLabel?.text = album.title
+        
         return cell
     }
     
-//    // MARK: - TableView Delegate
-//    
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print("Selected album at \(indexPath.row)")
-//        // Burada detay görünümüne geçiş yapabilirsiniz veya seçilen albümle ilgili işlemleri yapabilirsiniz.
-//    }
-//    
-//    // MARK: - Helper Methods
-    
+    // Hata mesajı göstermek için bir uyarı fonksiyonu
     func showAlert(with message: String) {
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))

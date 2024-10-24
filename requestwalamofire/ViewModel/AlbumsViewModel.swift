@@ -9,25 +9,25 @@ import Foundation
 
 class AlbumsViewModel {
     
-    var albums: [AlbumStruct] = []
-    var didUpdatePosts: (() -> Void)?
-    var success: (() -> Void)?
-    var error: ((String) -> Void)?
+    var album: [AlbumStruct] = [] // Albüm verileri
+    var didUpdateAlbums: (() -> Void)? // Albüm güncelleme closure'ı
+    var error: ((String) -> Void)? // Hata closure'ı
     
     let manager = NetworkManager.shared
     
-    func loadPosts() {
-        let url = NetworkHelper.shared.url(for: .albums)
+    func loadAlbums() {
+        let url = NetworkHelper.shared.url(for: .albums) // Albüm verilerini çekeceğimiz URL
         manager.request(urlString: url) { [weak self] (result: Result<[AlbumStruct], Error>) in
             DispatchQueue.main.async {
                 guard let self = self else { return }
                 switch result {
-                case .success(let title):
-                    self.albums = title
-                    self.success?()
-                    self.didUpdatePosts?()
+                case .success(let albums):
+                    self.album = albums
+                    print("Albums loaded successfully: \(albums)")
+                    self.didUpdateAlbums?() // Albümler güncellenince tabloyu yenile
                 case .failure(let error):
-                    self.error?(error.localizedDescription)
+                    print("Error loading albums: \(error.localizedDescription)")
+                    self.error?(error.localizedDescription) // Hata durumunu tetikle
                 }
             }
         }
